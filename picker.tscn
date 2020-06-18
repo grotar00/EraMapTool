@@ -1,0 +1,43 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://picker.gd" type="Script" id=1]
+[ext_resource path="res://colframe.png" type="Texture" id=2]
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -1262.0
+margin_bottom = -616.0
+rect_min_size = Vector2( 18, 24 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="."]
+margin_left = -6.0
+margin_top = -3.0
+margin_right = 24.0
+margin_bottom = 27.0
+mouse_filter = 2
+disabled = true
+flat = true
+color = Color( 0.235294, 0.705882, 0.941176, 1 )
+edit_alpha = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="TextureButton" parent="."]
+margin_right = 18.0
+margin_bottom = 24.0
+focus_mode = 0
+toggle_mode = true
+shortcut_in_tooltip = false
+action_mode = 0
+button_mask = 2
+enabled_focus_mode = 0
+texture_normal = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

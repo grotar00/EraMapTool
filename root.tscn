@@ -1,0 +1,884 @@
+[gd_scene load_steps=33 format=2]
+
+[ext_resource path="res://root.gd" type="Script" id=1]
+[ext_resource path="res://font_fields.tres" type="DynamicFont" id=2]
+[ext_resource path="res://MSGOTHIC.TTF" type="DynamicFontData" id=3]
+[ext_resource path="res://grid.gd" type="Script" id=4]
+[ext_resource path="res://symbrush.gd" type="Script" id=5]
+[ext_resource path="res://masks.gd" type="Script" id=6]
+[ext_resource path="res://font_buttons.tres" type="DynamicFont" id=7]
+[ext_resource path="res://font_mono.tres" type="DynamicFont" id=8]
+[ext_resource path="res://discord.png" type="Texture" id=9]
+[ext_resource path="res://NotoSans-Regular.ttf" type="DynamicFontData" id=10]
+[ext_resource path="res://NotoSansJP-Regular.otf" type="DynamicFontData" id=11]
+[ext_resource path="res://signal.png" type="Texture" id=12]
+[ext_resource path="res://godot.png" type="Texture" id=13]
+[ext_resource path="res://hint.gd" type="Script" id=14]
+[ext_resource path="res://bmfont.gd" type="Script" id=15]
+
+[sub_resource type="Theme" id=1]
+
+[sub_resource type="DynamicFont" id=2]
+size = 14
+font_data = ExtResource( 3 )
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 14
+extra_spacing_top = -5
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 20
+font_data = ExtResource( 3 )
+
+[sub_resource type="AtlasTexture" id=6]
+flags = 4
+atlas = ExtResource( 9 )
+region = Rect2( 0, 0, 24, 18 )
+
+[sub_resource type="AtlasTexture" id=7]
+flags = 4
+atlas = ExtResource( 9 )
+region = Rect2( 48, 0, 24, 18 )
+
+[sub_resource type="AtlasTexture" id=8]
+flags = 4
+atlas = ExtResource( 9 )
+region = Rect2( 24, 0, 24, 18 )
+
+[sub_resource type="AtlasTexture" id=9]
+flags = 4
+atlas = ExtResource( 13 )
+region = Rect2( 0, 0, 24, 18 )
+
+[sub_resource type="AtlasTexture" id=10]
+flags = 4
+atlas = ExtResource( 13 )
+region = Rect2( 48, 0, 24, 18 )
+
+[sub_resource type="AtlasTexture" id=11]
+flags = 4
+atlas = ExtResource( 13 )
+region = Rect2( 24, 0, 24, 18 )
+
+[sub_resource type="AtlasTexture" id=12]
+flags = 4
+atlas = ExtResource( 12 )
+region = Rect2( 0, 0, 12, 12 )
+
+[sub_resource type="AtlasTexture" id=13]
+flags = 4
+atlas = ExtResource( 12 )
+region = Rect2( 24, 0, 12, 12 )
+
+[sub_resource type="AtlasTexture" id=14]
+flags = 4
+atlas = ExtResource( 12 )
+region = Rect2( 12, 0, 12, 12 )
+
+[sub_resource type="DynamicFont" id=15]
+size = 12
+font_data = ExtResource( 10 )
+
+[sub_resource type="DynamicFont" id=16]
+size = 12
+extra_spacing_top = -4
+font_data = ExtResource( 11 )
+
+[sub_resource type="DynamicFont" id=17]
+extra_spacing_char = -2
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="BG" type="ColorRect" parent="."]
+margin_right = 1080.0
+margin_bottom = 640.0
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Masks" type="Node2D" parent="."]
+script = ExtResource( 6 )
+
+[node name="IO" type="Control" parent="."]
+margin_left = 1090.0
+margin_top = 34.0
+margin_right = 1130.0
+margin_bottom = 74.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="IClear" type="Button" parent="IO"]
+modulate = Color( 1, 0.878431, 0.878431, 1 )
+margin_top = 66.0
+margin_right = 69.0
+margin_bottom = 86.0
+hint_tooltip = "Clear input field"
+custom_fonts/font = ExtResource( 7 )
+text = "CLEAR"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ILoad" type="Button" parent="IO"]
+margin_left = 70.0
+margin_top = 66.0
+margin_right = 124.0
+margin_bottom = 86.0
+hint_tooltip = "Reload map
+from text field"
+custom_fonts/font = ExtResource( 7 )
+text = "LOAD"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="IClip" type="Button" parent="IO"]
+margin_left = 125.0
+margin_top = 66.0
+margin_right = 180.0
+margin_bottom = 86.0
+hint_tooltip = "Paste from
+clipboard"
+custom_fonts/font = ExtResource( 7 )
+text = "CLIP►"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OSave" type="Button" parent="IO"]
+modulate = Color( 0.878431, 1, 0.878431, 1 )
+margin_top = 215.0
+margin_right = 49.0
+margin_bottom = 235.0
+hint_tooltip = "Save current map
+state as JSON data"
+custom_fonts/font = ExtResource( 7 )
+text = "SAVE"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OExpo" type="Button" parent="IO"]
+modulate = Color( 0.878431, 1, 0.878431, 1 )
+margin_left = 50.0
+margin_top = 215.0
+margin_right = 69.0
+margin_bottom = 235.0
+hint_tooltip = "[Ctrl+S] Export
+.json to app folder"
+custom_fonts/font = ExtResource( 7 )
+text = ":"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OLoad" type="Button" parent="IO"]
+margin_left = 70.0
+margin_top = 215.0
+margin_right = 124.0
+margin_bottom = 235.0
+hint_tooltip = "Reload map
+from text field"
+custom_fonts/font = ExtResource( 7 )
+text = "LOAD"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OClip" type="Button" parent="IO"]
+margin_left = 125.0
+margin_top = 215.0
+margin_right = 180.0
+margin_bottom = 235.0
+hint_tooltip = "Copy to
+clipboard"
+custom_fonts/font = ExtResource( 7 )
+text = "CLIP◄"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ESave" type="Button" parent="IO"]
+modulate = Color( 0.792157, 0.878431, 1, 1 )
+margin_top = 335.0
+margin_right = 49.0
+margin_bottom = 355.0
+hint_tooltip = "Save current map
+state as ERA code"
+custom_fonts/font = ExtResource( 7 )
+text = "SAVE"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="EExpo" type="Button" parent="IO"]
+modulate = Color( 0.792157, 0.878431, 1, 1 )
+margin_left = 50.0
+margin_top = 335.0
+margin_right = 69.0
+margin_bottom = 355.0
+hint_tooltip = "[Ctrl+E] Export
+.ERB to app folder"
+custom_fonts/font = ExtResource( 7 )
+text = ":"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="EFunc" type="Button" parent="IO"]
+margin_left = 70.0
+margin_top = 335.0
+margin_right = 124.0
+margin_bottom = 355.0
+hint_tooltip = "[Ctrl+M] Save map
+colors preview as
+.PNG to app folder"
+theme = SubResource( 1 )
+custom_fonts/font = ExtResource( 7 )
+text = "PNG:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="EClip" type="Button" parent="IO"]
+margin_left = 125.0
+margin_top = 335.0
+margin_right = 180.0
+margin_bottom = 355.0
+hint_tooltip = "Copy to
+clipboard"
+custom_fonts/font = ExtResource( 7 )
+text = "CLIP◄"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TEInput" type="TextEdit" parent="."]
+margin_left = 1090.0
+margin_top = 10.0
+margin_right = 1270.0
+margin_bottom = 100.0
+custom_fonts/font = ExtResource( 2 )
+custom_constants/line_spacing = 0
+text = "Input JSON／ERACODE
+
+Drag&drop over this window:
+Single file - load the map
+Multiple files - convert to .ERB"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TEOutput" type="TextEdit" parent="."]
+margin_left = 1090.0
+margin_top = 159.0
+margin_right = 1270.0
+margin_bottom = 249.0
+custom_fonts/font = ExtResource( 2 )
+custom_constants/line_spacing = 0
+text = "Output JSON"
+readonly = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TEEmuera" type="TextEdit" parent="."]
+margin_left = 1090.0
+margin_top = 279.0
+margin_right = 1270.0
+margin_bottom = 369.0
+custom_fonts/font = ExtResource( 2 )
+custom_constants/line_spacing = 0
+text = "Output ERACODE"
+readonly = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Map" type="RichTextLabel" parent="."]
+margin_left = 11.0
+margin_top = 8.0
+margin_right = 921.0
+margin_bottom = 618.0
+custom_fonts/normal_font = SubResource( 2 )
+custom_constants/line_separation = -1
+meta_underlined = false
+text = "□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BrushMarker" type="ColorRect" parent="."]
+margin_left = -15.0
+margin_top = -15.0
+mouse_filter = 2
+color = Color( 1, 0.890196, 0, 0.294118 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorMarker" type="Line2D" parent="."]
+position = Vector2( -15, -15 )
+width = 4.0
+default_color = Color( 1, 1, 0, 1 )
+texture_mode = -1117844318
+begin_cap_mode = 1
+end_cap_mode = 1
+
+[node name="Pointers" type="Control" parent="."]
+margin_right = 910.0
+margin_bottom = 600.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Lock" type="Control" parent="."]
+margin_left = 12.0
+margin_top = 9.0
+margin_right = 908.0
+margin_bottom = 596.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="JAR" type="Control" parent="."]
+margin_left = 920.0
+margin_top = 40.0
+margin_right = 1070.0
+margin_bottom = 340.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TBrushes" type="TextEdit" parent="JAR"]
+anchor_top = 0.093
+anchor_bottom = 0.093
+margin_top = 0.0999985
+margin_right = 155.0
+margin_bottom = 505.1
+rect_clip_content = true
+mouse_default_cursor_shape = 2
+custom_styles/normal = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
+custom_colors/background_color = Color( 0, 0, 0, 1 )
+custom_constants/line_spacing = 4
+text = "【】［］〈〉｛｝（）
+┌┬┐／┃￣┏┳┓Ⅰ
+├┼┤―　━┣╋┫Ⅱ
+└┴┘＼｜＿┗┻┛Ⅲ
+！？＆＠.!?&@｢╔╦╗-－
+＃＄％＾,#$%^｣╠╬╣═＝
+＊＋×Ψ'*+:/|╚╩╝║≡
+：；。｡・･´`ヽ、_∥
+１２３４５６７８９０
+ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ  ()[]{}
+ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ　ヾﾞ\"',
+абвгдеёжзийклмнопрстуфхцчшщъыьэюя  ☆△▽◇□○
+АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ　★▲▼◆■●
+∩←∧↑∴γψρδσ
+≪＜※＞≫…∽∫∬θ
+∪↓∨→∵『⊿∀￢』
+〓†‡∑√￤〒♪♂♀
+東方竹木林森入火炎茸枯灯井形州川二Ξ三王ーﾄﾐｴｮﾖﾛ早仝合父言蕾申中日目曲由田囲回◎
+abcdefghijklmnopqrstuvwxyz  1234567890<>
+ABCDEFGHIJKLMNOPQRSTUVWXYZ　ﾘﾉハソノ⌒～>"
+highlight_all_occurrences = true
+context_menu_enabled = false
+wrap_enabled = true
+caret_blink = true
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="H0" type="Label" parent="JAR"]
+margin_top = -2.0
+margin_right = 24.0
+margin_bottom = 22.0
+mouse_filter = 0
+mouse_default_cursor_shape = 16
+custom_fonts/font = SubResource( 5 )
+text = "Ё"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Line2D" type="Line2D" parent="JAR/H0"]
+modulate = Color( 1, 1, 1, 0.498039 )
+points = PoolVector2Array( 0, 1, 0, 24, 23, 24, 23, 0, 0, 0 )
+width = 1.0
+default_color = Color( 1, 1, 1, 1 )
+texture_mode = 1047996373
+begin_cap_mode = 1
+end_cap_mode = 1
+
+[node name="H1" type="Label" parent="JAR"]
+margin_left = 24.0
+margin_top = -2.0
+margin_right = 48.0
+margin_bottom = 22.0
+custom_fonts/font = SubResource( 5 )
+custom_colors/font_color = Color( 0.74902, 0.74902, 0.74902, 1 )
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureButton" type="TextureButton" parent="JAR/H1"]
+margin_right = 24.0
+margin_bottom = 24.0
+mouse_default_cursor_shape = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="H2" type="Label" parent="JAR"]
+margin_left = 48.0
+margin_top = -2.0
+margin_right = 72.0
+margin_bottom = 22.0
+custom_fonts/font = SubResource( 5 )
+custom_colors/font_color = Color( 0.498039, 0.498039, 0.498039, 1 )
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureButton2" type="TextureButton" parent="JAR/H2"]
+margin_right = 24.0
+margin_bottom = 24.0
+mouse_default_cursor_shape = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="H3" type="Label" parent="JAR"]
+margin_left = 72.0
+margin_top = -2.0
+margin_right = 96.0
+margin_bottom = 22.0
+custom_fonts/font = SubResource( 5 )
+custom_colors/font_color = Color( 0.372549, 0.372549, 0.372549, 1 )
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureButton3" type="TextureButton" parent="JAR/H3"]
+margin_right = 24.0
+margin_bottom = 24.0
+mouse_default_cursor_shape = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="H4" type="Label" parent="JAR"]
+margin_left = 96.0
+margin_top = -2.0
+margin_right = 120.0
+margin_bottom = 22.0
+custom_fonts/font = SubResource( 5 )
+custom_colors/font_color = Color( 0.247059, 0.247059, 0.247059, 1 )
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureButton4" type="TextureButton" parent="JAR/H4"]
+margin_right = 24.0
+margin_bottom = 24.0
+mouse_default_cursor_shape = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="H5" type="Label" parent="JAR"]
+margin_left = 120.0
+margin_top = -2.0
+margin_right = 144.0
+margin_bottom = 22.0
+custom_fonts/font = SubResource( 5 )
+custom_colors/font_color = Color( 0.121569, 0.121569, 0.121569, 1 )
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureButton5" type="TextureButton" parent="JAR/H5"]
+margin_right = 24.0
+margin_bottom = 24.0
+mouse_default_cursor_shape = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Hide" type="Control" parent="."]
+margin_left = 1060.0
+margin_right = 1080.0
+margin_bottom = 639.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="Hide"]
+margin_left = 9.0
+margin_top = -5.0
+margin_right = 21.0
+margin_bottom = 645.0
+hint_tooltip = "[TAB] Toggle
+I/O menu"
+toggle_mode = true
+text = ">"
+clip_text = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MENU" type="HBoxContainer" parent="."]
+margin_left = 920.0
+margin_top = 9.0
+margin_right = 1070.0
+margin_bottom = 39.0
+custom_constants/separation = -1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PALETTE" type="HBoxContainer" parent="."]
+margin_left = 12.0
+margin_top = 610.0
+margin_right = 912.0
+margin_bottom = 640.0
+custom_constants/separation = -4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Grid" type="Control" parent="."]
+modulate = Color( 1, 1, 1, 0.05 )
+margin_left = 12.0
+margin_top = 8.0
+margin_right = 912.0
+margin_bottom = 608.0
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Hint" type="Label" parent="."]
+margin_left = 1090.0
+margin_top = 400.0
+margin_right = 1280.0
+margin_bottom = 640.0
+mouse_filter = 0
+mouse_default_cursor_shape = 16
+custom_fonts/font = ExtResource( 8 )
+custom_colors/font_color = Color( 0.74902, 0.74902, 0.74902, 1 )
+text = "Ponies and ponies and ponies
+and ponies and ponies and
+ponies and ponies and ponies
+and rainbow-y ponies and
+sunshine-y ponies and clouds
+full of ponies that float in
+the sky! Magical, sparkly,
+rainbow unicorn ponies I love
+all the ponies, their flesh
+and their bone-ys I chat with
+my ponies on marshmallow
+phonies they whinny, they
+sparkle, and best of all fly!
+Ponies and ponies and ponies
+and ponies and forgiveness
+ponies and happiness ponies
+Defenders of cupcakes, and
+shooting star wishes they
+shower nice feelings and hugs
+from the sky! Ponies! Cupcakes!
+Ponies! Ponies and ponies and
+ponies and ponies and ponies
+and ponies and ponies and
+ponies and rainbow-y ponies and
+sunshine-y ponies and
+clouds full of ponies
+that float in the sky"
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+pages = "========== PAGE 1/3 ==========
+LMB.......Assign char
+RMB.......Assign color
+LMBx2.....Swap char on match
+RMBx2.....Swap color on match
+MMB.......Clear cell
+Wheel.....Navigate palette
+Shift.....Toggle bias draw
+Ctrl......Toggle pop/push:
+          LMB | RMB | X1 | X2
+Alt+LMB...Pick symbol sample
+Alt+RMB...Pick color sample
+Ctrl+Q....Swap space width
+Ctrl+W....Select def color
+Ctrl+E....Export .ERB
+Ctrl+S....Export .json (Save)
+Ctrl+D....Toggle swap filter
+          (char | char & col)
+Ctrl+F....Toggle drawing mode:
+          (char | char & col)
+Ctrl+G....Toggle grid (Alt+G)
+Ctrl+H....Toggle drawing mode:
+          (click | hold)
+Ctrl+R....Minimize window
+Ctrl+P....Save screen
+Ctrl+Z....Undo action
+Alt+Z.....Redo action
+@========== PAGE 2/3 ==========
+Tab.......Toggle this panel
+Alt+G.....Change grid opacity
+A-Z|1-9...Select symbol, hold
+          Shift for uppercase
+NumPad....Select frame symbol
+          1-9 cross; 0+/* line
+Ctrl+O....Screencap through
+          days 1-120
+[!] Double click row/column
+pointers to fill a line
+[!] Double click corner X
+pointer to fill whole canvas
+[!] Double click row/column
+pointer with Ctrl to pop/push
+[!] Click character table to
+type or paste a custom symbol
+[!] RMB a wide color sample to
+open color picker popup
+[!] Custom colors may be
+stored within picker popup
+[!] Don't worry painting empty
+cells, they stay default color
+[!] Load empty text field
+to reset the map
+[!] Backup often
+[¡] Cirno stronk
+@========== PAGE 3/3 ==========
+MISC AND EXPERIMENTAL CONTROL:
+[!] Save recommended before
+using any of these
+
+Ctrl+B....Highlight spaces
+Ctrl+I....Invert map colors
+Ctrl+=....Toggle FPS counter
+MB:Back...Select a region for
+          clone, hold Shift
+          to paste multiple
+MB:Forth..Hold to draw a line
+          Hold Shift for ortho
+Ctrl+A....Draw rect or fill
+          from last edited
+          towards clicked cell
+Ctrl+M....Export current map
+          colors as 64x42 PNG
+[!] Drag&drop an image to use
+its colors for a map draft
+[!] Drag&drop multiple map
+data files to batch convert to
+ERB and create PNG thumbnails
+[!] Paste AA:NN strings from
+vanilla MAP script to
+load them as plain
+text with no color"
+
+[node name="Discord" type="TextureButton" parent="."]
+modulate = Color( 1, 1, 1, 0.498039 )
+margin_left = 1250.0
+margin_top = 620.0
+margin_right = 1274.0
+margin_bottom = 638.0
+hint_tooltip = "Join Era Games General on Discord
+"
+mouse_default_cursor_shape = 2
+texture_normal = SubResource( 6 )
+texture_pressed = SubResource( 7 )
+texture_hover = SubResource( 8 )
+stretch_mode = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Godot" type="TextureButton" parent="."]
+modulate = Color( 1, 1, 1, 0.498039 )
+margin_left = 1225.0
+margin_top = 620.0
+margin_right = 1249.0
+margin_bottom = 638.0
+hint_tooltip = "Godot Engine homepage
+"
+mouse_default_cursor_shape = 2
+texture_normal = SubResource( 9 )
+texture_pressed = SubResource( 10 )
+texture_hover = SubResource( 11 )
+stretch_mode = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Season" type="HSlider" parent="."]
+margin_left = 920.0
+margin_top = 585.0
+margin_right = 1055.0
+margin_bottom = 605.0
+max_value = 119.0
+editable = false
+tick_count = 5
+ticks_on_borders = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Season"]
+margin_left = -1.0
+margin_top = -15.0
+margin_right = 149.0
+margin_bottom = 5.0
+custom_fonts/font = ExtResource( 2 )
+text = "1[←][→] 30[↑][↓]"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Lock" type="TextureButton" parent="Season"]
+margin_left = 136.0
+margin_top = 4.0
+margin_right = 150.0
+margin_bottom = 18.0
+hint_tooltip = "Toggle procedural map"
+focus_mode = 0
+toggle_mode = true
+enabled_focus_mode = 0
+texture_normal = SubResource( 12 )
+texture_pressed = SubResource( 13 )
+texture_hover = SubResource( 14 )
+texture_disabled = SubResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Debug" type="Label" parent="."]
+margin_left = 1015.0
+margin_top = 570.0
+margin_right = 1065.0
+margin_bottom = 590.0
+mouse_default_cursor_shape = 16
+custom_fonts/font = SubResource( 15 )
+custom_colors/font_color = Color( 0.498039, 0.498039, 0.498039, 1 )
+align = 2
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MapNameBox" type="Control" parent="."]
+margin_left = 1080.0
+margin_top = 120.0
+margin_right = 1280.0
+margin_bottom = 160.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MapName" type="TextEdit" parent="MapNameBox"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 190.0
+margin_bottom = 30.0
+hint_tooltip = "Exported file name
+This box changes color over time
+to remind you save you progress"
+custom_fonts/font = SubResource( 16 )
+text = "Custom Map 000"
+wrap_enabled = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FPS" type="Label" parent="."]
+margin_left = 1240.0
+margin_right = 1280.0
+margin_bottom = 12.0
+hint_tooltip = "Nice frames bro"
+mouse_filter = 1
+custom_fonts/font = SubResource( 17 )
+text = "80085"
+align = 2
+script = ExtResource( 15 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="gui_input" from="Hint" to="Hint" method="_on_Hint_gui_input"]
+[connection signal="mouse_entered" from="Hint" to="Hint" method="_on_Hint_mouse_entered"]
+[connection signal="mouse_exited" from="Hint" to="Hint" method="_on_Hint_mouse_exited"]
+[connection signal="gui_input" from="FPS" to="FPS" method="_on_FPS_gui_input"]

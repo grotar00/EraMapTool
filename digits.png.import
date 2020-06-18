@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/digits.png-70b94ee7ddf27fdf79aee97efbcacfe1.image"
+
+[deps]
+
+source_file="res://digits.png"
+dest_files=[ "res://.import/digits.png-70b94ee7ddf27fdf79aee97efbcacfe1.image" ]
+
+[params]
+
