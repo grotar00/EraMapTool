@@ -1116,6 +1116,9 @@ func DrawShape(shape="line", mode=0):
 	var ratio = abs((dota.x - dotb.x)/(dota.y - dotb.y + 0.01 * int(dota.y - dotb.y == 0)))
 	var step
 	
+	if Input.is_action_just_pressed("right_click"):
+		queue_quit = true
+	
 	if shape == "line":
 		# Ortho vertical
 		if dota.x == dotb.x or dota.x == dotb.x + adjacent or \
