@@ -412,6 +412,15 @@ func COL(x=g.snap.x, y=g.snap.y, cl=g.c):
 		Print(str("X out of range in row ", y))
 		return
 	ColArray[y][x] = cl
+
+# ============================================= # ============================================= #
+# Fix out of bounds values for snap.x and snap.y
+# ============================================= # ============================================= #
+func Restrict():
+	if snap.x < 0: snap.x = 0
+	elif snap.x > size.x * 2 - 1: snap.x = size.x * 2 - 1
+	if snap.y < 0: snap.y = 0
+	elif snap.y > size.y - 1: snap.y = size.y - 1
 	
 # ============================================= # ============================================= #
 # Character check (takes string or [x,y] of Location array)

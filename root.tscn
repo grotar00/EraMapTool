@@ -592,6 +592,7 @@ margin_bottom = 645.0
 hint_tooltip = "[TAB] Toggle
 I/O menu"
 toggle_mode = true
+pressed = true
 text = ">"
 clip_text = true
 __meta__ = {
