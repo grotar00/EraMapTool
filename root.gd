@@ -316,7 +316,6 @@ func _process(delta):
 	BMark.set_visible(false)	# Unhide cell marker
 	# [!!!] Define coordinates of highlighted cell
 	g.snap = Vector2(floor((g.mpos[0] - 12) / (g.step / 2)), floor((g.mpos[1] - 9) / g.step))
-	g.Restrict()	# Solve out of bounds issue for g.snap
 	Debug.set_text(str(g.snap.x, ":", g.snap.y))
 	
 	if g.select:
@@ -999,19 +998,14 @@ func CreateRegion(dota, dotb, shift=0):
 # Move clone preview after the cursor and apply it when clicked
 # ============================================= # ============================================= #
 func MoveRegion():
-	var x = g.snap.x	# Initial x is highlighted cell (half)
-	var y = g.snap.y	# Initial y is highlighted cell
-	
-	# Left border limiting
+	var x = g.snap.x
+	var y = g.snap.y
 	if 		g.snap.x < 0 + (g.regionb[0].size() - 1) * int(g.regiond.x > 0):
 		x = 0 + (g.regionb[0].size() - 1) * int(g.regiond.x > 0)
-	# Right border limiting
 	elif 	g.snap.x >= g.size.x * 2 - (g.regionb[0].size() - 1) * int(g.regiond.x < 0):
 		x = g.size.x * 2 - 1 - (g.regionb[0].size() - 1) * int(g.regiond.x < 0)
-	# Top border limiting
 	if 		g.snap.y < 0 + (g.regionb.size() - 1) * int(g.regiond.y > 0):
 		y = 0 + (g.regionb.size() - 1) * int(g.regiond.y > 0)
-	# Bottom border limiting
 	elif 	g.snap.y >= g.size.y - (g.regionb.size() - 1) * int(g.regiond.y < 0):
 		y = g.size.y - 1 - (g.regionb.size() - 1) * int(g.regiond.y < 0)
 	
@@ -1037,25 +1031,11 @@ func ApplyRegion():
 	var pasteatx
 	var pasteaty
 	
-	var anchorx = g.snap.x
-	var anchory = g.snap.y
-	
-	# Snap region to borders if paste coordinates are out of bounds
-	if g.regiond.x > 0 and anchorx < abs(g.regiond.x):
-		anchorx = abs(g.regiond.x)
-	elif g.regiond.x < 0 and anchorx > g.size.x * 2 - 1 - abs(g.regiond.x):
-		anchorx = g.size.x * 2 - 1 - abs(g.regiond.x)
-	if g.regiond.y > 0 and anchory < abs(g.regiond.y):
-		anchory = abs(g.regiond.y)
-	elif g.regiond.y < 0 and anchory > g.size.y - 1 - abs(g.regiond.y):
-		anchory = g.size.y - 1 - abs(g.regiond.y)
-	# [!] Editor throws out of range warning sometimes but things seem to work anyway
-	
 	for y in g.regionb.size():
 		for x in g.regionb[y].size():
-			pasteatx = anchorx + x - g.regiond.x * int(g.regiond.x > 0)
-			pasteaty = anchory + y - g.regiond.y * int(g.regiond.y > 0)
-			if pasteatx in range(0, g.size.x * 2) and pasteaty in range(0, 42):
+			pasteatx = g.snap.x + x - g.regiond.x * int(g.regiond.x > 0)
+			pasteaty = g.snap.y + y - g.regiond.y * int(g.regiond.y > 0)
+			if pasteatx in range(1, g.size.x * 2 - 1) and pasteaty in range(0, 42):
 				# SAFE METHOD
 				if g.regionb[y][x]:	# Not "" cell after 2-byte
 					Draw(pasteatx, pasteaty, g.regionb[y][x])
@@ -1069,7 +1049,7 @@ func ApplyRegion():
 #					g.ColArray[pasteaty][pasteatx] = g.regionc[y][x]
 	Transcribe()
 	DrawMap()
-	
+			
 # ============================================= # ============================================= #
 # DRAW COLOR
 # ============================================= # ============================================= #
@@ -1835,7 +1815,7 @@ func SaveData(win):
 		var Exportc = []	# Array with all color lines
 		var Export = []		# Array to keep track of empty lines
 		
-		var dels = "​"		# Symbol delimiter (zero-width space)
+		var dels = "​"		# Symbol delimiter
 		var delc = ","		# Color delimiter
 
 		var call = "call"	# "call getmap" flag name
@@ -1872,7 +1852,7 @@ func SaveData(win):
 							rowc += col
 						else:
 							rowc += g.Num20x(col)
-					if x < Dimensions[y].size() - 1:	#if x <= Dimensions[y].size() - 1:
+					if x <= Dimensions[y].size() - 1:
 						# Isn't last entry and both current && next != call
 						if !(x < Dimensions[y].size() - 2 and Location[y][x+1] and \
 						col == call and ColArray[y][x+1] == call):
@@ -1880,8 +1860,8 @@ func SaveData(win):
 						if callw and col == call:
 							hasCall = callc
 
-			# Clumsy method to strip invisible symbols
-			# off lines by converting lines to arrays and back
+			# Clumsy method to strip lines from invisible
+			# symbols by converting them to arrays and back
 			# =====
 			rows = Array(rows.split(dels))
 			rowc = Array(rowc.split(delc))
@@ -1981,7 +1961,7 @@ func TryLoadERA(text, draw=true):
 	var lines = text.split("\n")
 	var Location = []
 	var ColArray = []
-	var delimcha = "​"	# Zero-width space
+	var delimcha = "​"
 	var delimcol = ","
 	
 	var regex = RegEx.new()
@@ -2027,23 +2007,22 @@ func TryLoadERA(text, draw=true):
 		if Location[row].size() > g.size.x * 2:	# Too much symbols in row
 			Tin.text = str("ERROR:\nToo much elements in line ", row)
 			return false
-		for col in Location[row].size():	# For each entry in row
+		for col in Location[row].size():
 			if Location[row][col].length() == 1:
 				Draw(point, row, Location[row][col])
 			else:
 				Draw(point, row, Location[row][col].substr(0, 1))
 				if point < 127:
 					Draw(point + 1, row, Location[row][col].substr(1, 1))
-			if ColArray:	# Color data provided
+			if ColArray:
 				color = ColArray[row][col].replace("0x", "#")
-				if color.to_lower() in ["0", "r", "reset", "default", "def"]: color = "def"
-				elif color.to_lower() in ["1", "255", "a", "fff", "albedo", "white"]: color = "white"
-				elif color.to_lower() in ["2", "getmap", "go", "call"]: color = "call"
+				if color in ["0", "R", "r", "reset", "default"]: color = "def"
+				elif color in ["1", "255", "A", "a", "FFF", "fff", "albedo"]: color = "white"
+				elif color in ["2", "CALL", "GETMAP", "getmap", "GO", "go"]: color = "call"
 				elif g.IsIndex(color): color = g.Index[int(color)]
 				if !color: color = excol
 				g.ColArray[row][point] = color
-				if point < 127 and g.IsFull(Location[row][col]):
-					g.ColArray[row][point+1] = color
+				if point < 127: g.ColArray[row][point+1] = color
 				excol = color
 			point += 2 - g.IsHalf(Location[row][col])
 			if point >= g.size.x * 2: break
@@ -2169,11 +2148,8 @@ func SaveReminder(add=-1):
 		g.progress += 1
 	if g.progress > 200:
 		MapName.modulate = Color(1.2, 0.8, 0.8)
-		Hide.modulate = Color(1.2, 0.8, 0.8)
 		return
-	var mod = Color(0.8 + g.progress/1000.0, 1.0 - g.progress/1000.0, 0.8)
-	MapName.modulate = mod
-	Hide.modulate = mod
+	MapName.modulate = Color(0.8 + g.progress/1000.0, 1.0 - g.progress/1000.0, 0.8)
 
 # ============================================= # ============================================= #
 # Save map colors to an image
