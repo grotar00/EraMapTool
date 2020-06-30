@@ -15,7 +15,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Era Map Tool 2.15"
+config/name="Era Map Tool 2.16"
 run/main_scene="res://root.tscn"
 run/low_processor_mode=true
 boot_splash/image="res://splash.png"

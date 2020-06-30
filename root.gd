@@ -117,6 +117,36 @@ func _ready():
 	g.root = self
 	Picker = color_picker.instance()
 	
+	# Show notification for web version
+	if g.WEB:
+		Tin.text = "Input JSON／ERACODE"
+		OExpo.disabled = true
+		EExpo.disabled = true
+		
+		g.lock = true
+		Hide.disabled = true
+		var warningPan = Panel.new()
+		var warningLbl = Label.new()
+		var warningBtn = Button.new()
+		warningPan.rect_size = Vector2(360,120)
+		warningPan.rect_position = Vector2(520 - 180, 320 - 60)
+		warningLbl.rect_size = Vector2(350,90)
+		warningLbl.rect_position = Vector2(5, 5)
+		warningLbl.text = str(	"This is experimental browser version of Era Map Tool.\n",
+								"Please consider that most controls rely on use of RMB and ",
+								"may conflict with enabled mouse gestures.\nAlso make sure ",
+								"you've opened this editor in new tab so progress won't be ",
+								"lost if you press back accidently.")
+		warningLbl.autowrap = true
+		warningBtn.rect_size = Vector2(100,20)
+		warningBtn.rect_position = Vector2(130, 95)
+		warningBtn.text = "OK, thanks"
+		warningPan.add_child(warningLbl)
+		warningPan.add_child(warningBtn)
+		warningBtn.connect("pressed", g, "Toggle", ["lock"])
+		warningBtn.connect("pressed", warningPan, "queue_free")
+		add_child(warningPan)		
+		
 	get_tree().connect("files_dropped", self, "DragAndDrop")
 	Tin.connect("mouse_exited", Tin, "deselect")
 	Tin.connect("mouse_exited", Tin, "release_focus")
@@ -200,7 +230,7 @@ func _input(event):
 		if Input.is_action_just_pressed("redo"):		# Alt+Z
 			Redo()
 		if Input.is_action_just_pressed("iopanel"):		# Tab
-			Hide.set_pressed(!Hide.is_pressed())
+			if !g.WEB: Hide.set_pressed(!Hide.is_pressed())
 		if Input.is_action_just_pressed("fps_counter"):	# Ctrl+= / =
 			fps.set_visible(!fps.is_visible())
 		if Input.is_action_just_released("grid_fade"):	# Alt+G

@@ -9,6 +9,14 @@ signal select_colors	# Select picked color
 signal destroy_pointers	# Destroy col/row pointers
 signal destroy_previews	# Destroy drawing hints
 
+var WEB = false				# Flag for browser version
+# Paste inside <body> of index.html to intrcept page scrolling with mouse wheel:
+#<script>
+#	window.addEventListener("wheel", function(e){
+#		e.preventDefault();
+#		}, {passive: false} );
+#</script>
+
 var root					# Root node (is assigned in root.gd)
 var iopan = true			# State of I/O panel (true=shown)
 var debug = 0				# You guess
@@ -492,6 +500,8 @@ func Toggle(par):
 		warp = 1 - warp
 	if par == "dots":
 		dots = !dots
+	if par == "lock":
+		lock = !lock
 	if par == "seaslbl":
 		root.Season.get_node("Label").set("custom_colors/font_color", Color(.3,.3,.3))
 		root.Season.get_node("Label").set_text("[Procedural OFF]")
