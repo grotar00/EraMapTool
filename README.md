@@ -1,5 +1,5 @@
 # Era Map Tool
-*version 2.15 (18 Jun 2020)*
+*version 2.16 (01 Jul 2020)*
 Developed using Godot engine:
 https://godotengine.org/
 
