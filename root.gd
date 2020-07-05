@@ -122,7 +122,10 @@ func _ready():
 		Tin.text = "Input JSON／ERACODE"
 		OExpo.disabled = true
 		EExpo.disabled = true
-		
+		EFunc.disabled = true
+		OExpo.hint_tooltip = str("[!] Disabled in browser\n\n" + OExpo.hint_tooltip)
+		EExpo.hint_tooltip = str("[!] Disabled in browser\n\n" + EExpo.hint_tooltip)
+		EFunc.hint_tooltip = str("[!] Disabled in browser\n\n" + EFunc.hint_tooltip)
 		g.lock = true
 		Hide.disabled = true
 		var warningPan = Panel.new()
@@ -1876,10 +1879,10 @@ func SaveData(win):
 		for y in Dimensions.size():
 			# [!] If changed, remember to double new identifiers in TryLoadERA() 
 			lines = str("AA:", "0".trim_prefix(str(int(y < 10))), y, " = ")	# Characters row format
-			linec = str("FF:", "0".trim_prefix(str(int(y < 10))), y, " = ")	# Colors row format
+			linec = str("MAPROW_COLORS:", "0".trim_prefix(str(int(y < 10))), y, " = ")	# Colors row format
 			var hasCall = "" # Extra text for lines containing call flag
-			var rows = ""
-			var rowc = ""
+			var rows = "\t"
+			var rowc = "\t"
 
 			# For each entry in row array
 			for x in Dimensions[y].size():
@@ -1989,6 +1992,7 @@ func ExportData(win, batch=false):
 			return
 		prefix = "ERA_"
 		format = ".ERB"
+		SaveReminder(0)	# Reset actions counter
 	
 	var path = OS.get_executable_path().get_base_dir().replace("\\", "/") + "/"
 	var time = str(	"0".trim_prefix(str(int(OS.get_time().hour < 10))), OS.get_time().hour, "",
