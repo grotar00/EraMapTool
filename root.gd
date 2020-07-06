@@ -1870,51 +1870,56 @@ func SaveData(win):
 		
 		var dels = "​"		# Symbol delimiter (zero-width space)
 		var delc = ","		# Color delimiter
-
 		var call = "call"	# "call getmap" flag name
-		var callc = ";CALL"	# Endline comment for lines with getmap
-		var callw = false	# Add endline comment
+		var calldel = true	# Split entries nevertheless of call flag
 		
 		# For each line	
 		for y in Dimensions.size():
 			# [!] If changed, remember to double new identifiers in TryLoadERA() 
-			lines = str("AA:", "0".trim_prefix(str(int(y < 10))), y, " = ")	# Characters row format
-			linec = str("MAPROW_COLORS:", "0".trim_prefix(str(int(y < 10))), y, " = ")	# Colors row format
-			var hasCall = "" # Extra text for lines containing call flag
-			var rows = "\t"
-			var rowc = "\t"
+			lines = str("\tAA:", "0".trim_prefix(str(int(y < 10))), y, " = ")	# Characters row format
+			linec = str("\tMAPROW_COLORS:", "0".trim_prefix(str(int(y < 10))), y, " = ")	# Colors row format
+			var rows = ""
+			var rowc = ""
 
 			# For each entry in row array
 			for x in Dimensions[y].size():
 				# If !null
 				if Location[y][x]:
-					# Color
 					var col = ColArray[y][x]
-					# Symbol
 					rows += Location[y][x]
+
+					# Add symbol delimiter
 					if x < Dimensions[y].size() - 1:
+						if calldel:
+							rows += dels	# Add zero width space delimiter for symbol row
 						# If symbols are not paired together due to call flag
-						if !(Location[y][x+1] and col == call and ColArray[y][x+1] == call):
-							rows += dels # Add zero width space delimiter for AA row
-					# Color
-					if (x > 0 and col != ColArray[y][x-1]) or x == 0:	# Different from last entry
-						if col in g.Flags:
+						elif !(Location[y][x+1] and col == call and ColArray[y][x+1] == call):
+							rows += dels	# Add zero width space delimiter for symbol row
+
+					# Write color if different from last entry
+					if (x > 0 and col != ColArray[y][x-1]) or x == 0:
+						if col == call:
+							rowc += "0"	# TEMPORARY (should be 2)
+						elif col in g.Flags:
 							# INDEX
 #							rowc += str(g.Flags.get(col)[3])
 							# NAME
 							rowc += col
 						else:
+							# HEX
 							rowc += g.Num20x(col)
-					if x < Dimensions[y].size() - 1:	#if x <= Dimensions[y].size() - 1:
-						# Isn't last entry and both current && next != call
-						if !(x < Dimensions[y].size() - 2 and Location[y][x+1] and \
-						col == call and ColArray[y][x+1] == call):
-							rowc += delc # Add comma delimiter for FF row
-						if callw and col == call:
-							hasCall = callc
 
-			# Clumsy method to strip invisible symbols
-			# off lines by converting lines to arrays and back
+					# Add color delimiter
+					if x < Dimensions[y].size() - 1:
+						if calldel:
+							rowc += delc	# Add comma delimiter for color row
+						# If symbols are not paired together due to call flag
+						elif !(x < Dimensions[y].size() - 2 and Location[y][x+1] and \
+						col == call and ColArray[y][x+1] == call):
+							rowc += delc	# Add comma delimiter for color row
+
+			# Clumsy method to strip invisible symbols off
+			# lines by converting lines to arrays and back
 			# =====
 			rows = Array(rows.split(dels))
 			rowc = Array(rowc.split(delc))
@@ -1931,12 +1936,11 @@ func SaveData(win):
 				rowc = ""
 				Export.append(0)
 			# =====
-			
-			lines += rows + hasCall + "\n".left(int(y != g.size.y - 1) * 2)
-			linec += rowc + hasCall + "\n".left(int(y != g.size.y - 1) * 2)
+
+			lines += rows + "\n".left(int(y != g.size.y - 1) * 2)
+			linec += rowc + "\n".left(int(y != g.size.y - 1) * 2)
 			Exports.append(lines)
 			Exportc.append(linec)
-#			g.DebugExport(Exports, y)
 
 		# Remove all empty lines from the end
 		while Export and Export[Export.size() - 1] == 0:
@@ -2070,7 +2074,9 @@ func TryLoadERA(text, draw=true):
 					Draw(point + 1, row, Location[row][col].substr(1, 1))
 			if ColArray:	# Color data provided
 				color = ColArray[row][col].replace("0x", "#")
-				if color.to_lower() in ["0", "r", "reset", "default", "def"]: color = "def"
+				if color.to_lower() == "0": color = "call"
+				elif color.to_lower() in ["r", "reset", "default", "def"]: color = "def"
+				#if color.to_lower() in ["0", "r", "reset", "default", "def"]: color = "def"
 				elif color.to_lower() in ["1", "255", "a", "fff", "albedo", "white"]: color = "white"
 				elif color.to_lower() in ["2", "getmap", "go", "call"]: color = "call"
 				elif g.IsIndex(color): color = g.Index[int(color)]
@@ -2142,6 +2148,7 @@ func DragAndDrop(src, screen):
 				PrintMap(true)
 			
 		Tin.text = str("OK:\n", filesCount, " files converted to .ERB")
+		OS.set_window_title(ProjectSettings.get_setting("application/config/name"))
 		
 		# Restore map state
 		g.Location = VirtualClipboard[0]
